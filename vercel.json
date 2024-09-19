@@ -22,12 +22,6 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/v1/(.*)", "destination": "/api/v1/$1.ts" },
-    { "source": "/v1/(.*)", "destination": "/api/v1/$1/index.ts" },
-    { "source": "/", "destination": "/api/index.ts" },
-    { "source": "/(.*)", "destination": "/api/404.ts" }
-  ],
-  "redirects": [{ "source": "/api/:path*", "destination": "/:path*" }],
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "trailingSlash": false
 }
