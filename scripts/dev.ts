@@ -4,10 +4,9 @@ import { readdir } from 'fs/promises'
 import { resolve } from 'path'
 import { consola } from 'consola'
 import pc from 'picocolors'
-import { loadEnvVar } from '../utils/environment'
 import { Server } from 'http'
 
-const BASE_URL = loadEnvVar('BASE_URL') ?? 'http://localhost'
+const BASE_URL = 'http://localhost'
 const PORT = process.env.PORT ?? '3000'
 
 const isIndex = (r: string) => r === 'index'
@@ -90,7 +89,7 @@ const main = async (): Promise<void> => {
       )
     )
 
-    console.log(`\n${pc.cyan('Server running on')} ${pc.bold(`${BASE_URL}`)}`)
+    console.log(`\n${pc.cyan('Server running on')} ${pc.bold(`${BASE_URL}:${PORT}`)}`)
   })
 
   process.once('SIGUSR2', () => gracefulShutdown(server, 'SIGUSR2'))

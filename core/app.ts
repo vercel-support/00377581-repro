@@ -1,5 +1,4 @@
 import express, { RouterOptions, Router, Express } from 'express';
-import helmet from 'helmet';
 import cors from 'cors';
 import { dbConnection } from './middlewares';
 
@@ -14,16 +13,6 @@ _app.use(express.static('public'));
 
 // Cors middlewares
 _app.use(cors());
-
-// Helmet middlewares
-_app.use(helmet.dnsPrefetchControl());
-_app.use(helmet.hidePoweredBy());
-_app.use(helmet.hsts());
-_app.use(helmet.ieNoOpen());
-_app.use(helmet.noSniff());
-_app.use(helmet.permittedCrossDomainPolicies());
-_app.use(helmet.referrerPolicy());
-_app.use(helmet.xssFilter());
 
 // Custom middlewares
 _app.use(dbConnection);

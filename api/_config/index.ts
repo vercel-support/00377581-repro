@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import mongooseUniqueValidator from 'mongoose-unique-validator';
 import { nanoid } from 'nanoid';
 
 const environmentSchema = new mongoose.Schema(
@@ -34,7 +33,6 @@ const environmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-environmentSchema.plugin(mongooseUniqueValidator);
 environmentSchema.set('toJSON', {
   virtuals: true,
   transform: (_, converted) => {
