@@ -1,0 +1,33 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["fra1"],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Authorization, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Oktus-Version, X-Oktus-Team, X-Oktus-App, X-Oktus-Category, X-Oktus-Package"
+        },
+        {
+          "key": "Access-Control-Max-Age",
+          "value": "86400"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/v1/(.*)", "destination": "/api/v1/$1.ts" },
+    { "source": "/v1/(.*)", "destination": "/api/v1/$1/index.ts" },
+    { "source": "/", "destination": "/api/index.ts" },
+    { "source": "/(.*)", "destination": "/api/404.ts" }
+  ],
+  "redirects": [{ "source": "/api/:path*", "destination": "/:path*" }],
+  "trailingSlash": false
+}

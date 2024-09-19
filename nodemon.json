@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "api",
+    "services",
+    "core",
+    "models",
+    "constants",
+    "utils",
+    "endpoints",
+    "scripts/dev.ts",
+    "index.ts"
+  ],
+  "ext": "ts,json",
+  "exec": "pnpm dev:start"
+}
