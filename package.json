@@ -9,7 +9,6 @@
     "url": "https://oktus.io"
   },
   "scripts": {
-    "clean": "rimraf .turbo node_modules dist",
     "dev": "nodemon",
     "dev:start": "tsx scripts/dev.ts"
   },
