@@ -14,7 +14,7 @@ const createRouter: (options?: RouterOptions) => Router = express.Router
 export const router = createRouter()
 
 // Express definitions
-_app.set('trust proxy', true)
+_app.set('trust proxy', 1)
 
 // Global middlewares
 if (process.env.NODE_ENV === 'production') {
