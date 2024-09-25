@@ -96,3 +96,4 @@ sw.*
 vercel.dev.json
 
 .tmp
+.env*.local
