@@ -13,6 +13,9 @@ export const _app = express()
 const createRouter: (options?: RouterOptions) => Router = express.Router
 export const router = createRouter()
 
+// Express definitions
+_app.set('trust proxy', true)
+
 // Global middlewares
 if (process.env.NODE_ENV === 'production') {
   _app.use(globalMinuteRateLimiter)
