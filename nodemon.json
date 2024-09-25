@@ -1,5 +1,0 @@
-{
-  "watch": ["api", "core", "scripts/dev.ts"],
-  "ext": "ts,json",
-  "exec": "pnpm dev:start"
-}

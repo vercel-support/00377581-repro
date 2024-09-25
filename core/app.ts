@@ -1,22 +1,45 @@
-import express, { RouterOptions, Router, Express } from 'express';
-import cors from 'cors';
-import { dbConnection } from './middlewares';
+import express, { Express, Router, RouterOptions, RequestHandler } from 'express'
+import helmet from 'helmet'
+import cors from 'cors'
+import {
+  dbConnection,
+  errorHandler,
+  globalMinuteRateLimiter,
+  globalSecondRateLimiter,
+  globalSpeedLimiter
+} from './middlewares'
 
-export const _app = express();
-const createRouter: (options?: RouterOptions) => Router = express.Router;
-export const router = createRouter();
+export const _app = express()
+const createRouter: (options?: RouterOptions) => Router = express.Router
+export const router = createRouter()
 
-// Express middlewares
-_app.use(express.json({ limit: '5mb' }));
-_app.use(express.urlencoded({ extended: true }));
-_app.use(express.static('public'));
+// Global middlewares
+if (process.env.NODE_ENV === 'production') {
+  _app.use(globalMinuteRateLimiter)
+  _app.use(globalSecondRateLimiter)
+  _app.use(globalSpeedLimiter)
+}
 
-// Cors middlewares
-_app.use(cors());
+_app.use(express.json({ limit: '5mb' }) as RequestHandler)
+_app.use(express.urlencoded({ extended: true }) as RequestHandler)
+_app.use(express.static('public') as RequestHandler)
+
+// Security middlewares
+_app.use(cors())
+_app.use(
+  helmet({
+    dnsPrefetchControl: true,
+    hsts: true,
+    ieNoOpen: true,
+    noSniff: true,
+    permittedCrossDomainPolicies: true,
+    referrerPolicy: true,
+    xssFilter: true
+  }) as RequestHandler
+)
 
 // Custom middlewares
-_app.use(dbConnection);
+_app.use(dbConnection)
+_app.use(errorHandler)
 
-export default process.env.NODE_ENV === 'production'
-  ? _app
-  : (router as Express);
+export default process.env.NODE_ENV === 'production' ? _app : (router as Express)
