@@ -1,20 +1,22 @@
-import { RedisStore } from 'rate-limit-redis'
+import { RedisStore, Options } from 'rate-limit-redis'
 import { redisClient, redisUpstashClient } from '../../services'
 
-export const globalMinuteLimiterStore = new RedisStore({
-  prefix: 'rl:global:min:',
-  // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
+const defaultRedisStoreOptions: Options = {
+  // @ts-expect-error
   sendCommand: (...args: string[]) => redisClient.call(...args)
+}
+
+export const globalMinuteLimiterStore = new RedisStore({
+  ...defaultRedisStoreOptions,
+  prefix: 'rl:global:min:'
 })
 
 export const globalSecondLimiterStore = new RedisStore({
-  prefix: 'rl:global:sec:',
-  // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
-  sendCommand: (...args: string[]) => redisClient.call(...args)
+  ...defaultRedisStoreOptions,
+  prefix: 'rl:global:sec:'
 })
 
 export const globalSpeedLimiterStore = new RedisStore({
-  prefix: 'sl:global:',
-  // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
-  sendCommand: (...args: string[]) => redisClient.call(...args)
+  ...defaultRedisStoreOptions,
+  prefix: 'sl:global:'
 })
