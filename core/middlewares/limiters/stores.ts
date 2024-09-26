@@ -13,12 +13,6 @@ export const globalSecondLimiterStore = new RedisStore({
   sendCommand: (...args: string[]) => redisClient.call(...args)
 })
 
-export const organizationAppLimiterStore = new RedisStore({
-  prefix: 'rl:org:app:',
-  // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
-  sendCommand: (...args: string[]) => redisClient.call(...args)
-})
-
 export const globalSpeedLimiterStore = new RedisStore({
   prefix: 'sl:global:',
   // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis

@@ -2,7 +2,6 @@ import express, { Express, Router, RouterOptions, RequestHandler } from 'express
 import helmet from 'helmet'
 import cors from 'cors'
 import {
-  dbConnection,
   errorHandler,
   globalMinuteRateLimiter,
   globalSecondRateLimiter,
@@ -42,7 +41,6 @@ _app.use(
 )
 
 // Custom middlewares
-_app.use(dbConnection)
 _app.use(errorHandler)
 
 export default process.env.NODE_ENV === 'production' ? _app : (router as Express)

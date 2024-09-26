@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express'
-import { ActivityController } from '../services'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -7,7 +6,7 @@ export const errorHandler = (err: unknown, req: Request, res: Response, _: NextF
   const statusCode =
     res.statusCode === StatusCodes.NOT_FOUND ? res.statusCode : StatusCodes.INTERNAL_SERVER_ERROR
 
-  ActivityController.sendMessage(req, res, statusCode, {
+  res.status(statusCode).json({
     message: err instanceof Error ? err.message : ReasonPhrases.INTERNAL_SERVER_ERROR,
     debugLevel: 'error',
     help: 'Unexpected error',
