@@ -3,7 +3,7 @@ import { readdir } from 'node:fs/promises'
 import { type Server } from 'node:http'
 import { consola } from 'consola'
 import pc from 'picocolors'
-import { _app } from '../core'
+import { _app } from '../core/app.js'
 
 const BASE_URL = 'http://localhost'
 const PORT = process.env.PORT ?? '3000'
