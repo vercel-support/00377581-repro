@@ -1,2 +1,2 @@
-export * from './rateLimit'
-export * from './speedLimit'
+export * from './rateLimit.js'
+export * from './speedLimit.js'

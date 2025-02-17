@@ -6,7 +6,7 @@ import {
   // globalMinuteRateLimiter,
   // globalSecondRateLimiter,
   // globalSpeedLimiter
-} from './middlewares'
+} from './middlewares/index.js'
 
 export const _app = express()
 const createRouter: (options?: RouterOptions) => Router = express.Router

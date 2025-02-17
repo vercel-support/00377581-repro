@@ -1,8 +1,8 @@
 import { RedisStore, Options } from 'rate-limit-redis'
-import { redisClient, redisUpstashClient } from '../../services'
+import { redisClient } from '../../services/index.js'
 
 const defaultRedisStoreOptions: Options = {
-  // @ts-expect-error
+  // @ts-expect-error - We're using a custom redisClient
   sendCommand: (...args: string[]) => redisClient.call(...args)
 }
 
