@@ -1,10 +1,9 @@
 import 'dotenv/config'
-import { _app } from '../core'
-import { readdir } from 'fs/promises'
-import { resolve } from 'path'
+import { readdir } from 'node:fs/promises'
+import { type Server } from 'node:http'
 import { consola } from 'consola'
-import { Server } from 'http'
 import pc from 'picocolors'
+import { _app } from '../core'
 
 const BASE_URL = 'http://localhost'
 const PORT = process.env.PORT ?? '3000'
@@ -20,17 +19,9 @@ const getRoutes = async (dir: string, routes: Set<string>, baseDir = dir) => {
       const subDir = dir.replace(baseDir, '')
 
       if (subDir) {
-        if (isIndex(route)) {
-          routes.add(subDir)
-        } else {
-          routes.add(`${subDir}/${route}`)
-        }
-      } else if (isIndex(route)) {
-        routes.add('/')
+        routes.add(isIndex(route) ? subDir : `${subDir}/${route}`)
       } else {
-        routes.add(`/${route}`)
-
-        // console.log(`${pc.bold(dirent.name)} added as ${pc.green(pc.bold(routes.at(-1)))}`)
+        routes.add(isIndex(route) ? '/' : `/${route}`)
       }
     }
 
@@ -51,12 +42,15 @@ const createExpressRoutes = async (routes: Set<string>, baseDir: string) => {
   const promises = Array.from(routes).map(async (route) => {
     if (route.split('/').some((path) => isIgnoredPath(path))) return
 
-    const { default: module } = await import(baseDir + route)
-
-    if (module?.stack) {
-      _app.use(module)
-    } else {
-      console.warn(pc.yellow(`${pc.bold(route)} has no default exported router`))
+    try {
+      const { default: module } = await import(baseDir + route)
+      if (module?.stack) {
+        _app.use(module)
+      } else {
+        consola.warn(pc.yellow(`${pc.bold(route)} has no default exported router`))
+      }
+    } catch (err: any) {
+      consola.error(pc.red(`Failed to import route ${route}: ${err.message}`))
     }
   })
 
@@ -75,10 +69,12 @@ const gracefulShutdown = (server: Server, signal: NodeJS.Signals) => {
 }
 
 const main = async (): Promise<void> => {
-  consola.start('Creating routes...')
+  consola.start('Collecting routes...')
   const routes = new Set<string>()
-  const baseDir = resolve(__dirname, '../api')
+  const baseDir = new URL('../api', import.meta.url).pathname
   await getRoutes(baseDir, routes)
+  consola.info(`Found ${routes.size} routes`)
+  consola.start('Creating routes...')
   await createExpressRoutes(routes, baseDir)
   consola.success('Routes created!')
 
@@ -89,7 +85,7 @@ const main = async (): Promise<void> => {
       )
     )
 
-    console.log(`\n${pc.cyan('Server running on')} ${pc.bold(`${BASE_URL}:${PORT}`)}`)
+    console.log(`\n${pc.cyan('Server running on')} ${pc.bold(`${BASE_URL}`)}`)
   })
 
   process.once('SIGUSR2', () => gracefulShutdown(server, 'SIGUSR2'))
