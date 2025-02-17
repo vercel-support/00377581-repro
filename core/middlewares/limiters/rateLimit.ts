@@ -1,6 +1,6 @@
 import { rateLimit, Options } from 'express-rate-limit'
-import { globalMinuteLimiterStore, globalSecondLimiterStore } from './stores.js'
-import { determineLimit, determineSkip, handleRateLimitExceeded } from './utils.js'
+import { globalMinuteLimiterStore, globalSecondLimiterStore } from './stores'
+import { determineLimit, determineSkip, handleRateLimitExceeded } from './utils'
 
 const defaultRateLimitOptions: Partial<Options> = {
   standardHeaders: true,

@@ -3,7 +3,8 @@ import { readdir } from 'node:fs/promises'
 import { type Server } from 'node:http'
 import { consola } from 'consola'
 import pc from 'picocolors'
-import { _app } from '../core/app.js'
+import { _app } from '../core'
+import { resolve } from 'node:path'
 
 const BASE_URL = 'http://localhost'
 const PORT = process.env.PORT ?? '3000'
@@ -71,7 +72,7 @@ const gracefulShutdown = (server: Server, signal: NodeJS.Signals) => {
 const main = async (): Promise<void> => {
   consola.start('Collecting routes...')
   const routes = new Set<string>()
-  const baseDir = new URL('../api', import.meta.url).pathname
+  const baseDir = resolve(__dirname, '../api')
   await getRoutes(baseDir, routes)
   consola.info(`Found ${routes.size} routes`)
   consola.start('Creating routes...')

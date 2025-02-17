@@ -1,2 +1,2 @@
-export { default as redisClient } from './redis.js'
-export { default as redisUpstashClient } from './redis-upstash.js'
+export { default as redisClient } from './redis'
+export { default as redisUpstashClient } from './redis-upstash'

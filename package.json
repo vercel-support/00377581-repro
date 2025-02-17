@@ -3,7 +3,6 @@
   "description": "api.oktus.io",
   "version": "0.1.47",
   "private": true,
-  "type": "module",
   "author": {
     "name": "Oktus GmbH",
     "email": "developer@oktus.io",

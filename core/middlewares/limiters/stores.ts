@@ -1,5 +1,5 @@
 import { RedisStore, Options } from 'rate-limit-redis'
-import { redisClient } from '../../services/index.js'
+import { redisClient } from '../../services'
 
 const defaultRedisStoreOptions: Options = {
   // @ts-expect-error - We're using a custom redisClient

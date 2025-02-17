@@ -1,6 +1,6 @@
 import { slowDown, Options } from 'express-slow-down'
-import { globalSpeedLimiterStore } from './stores.js'
-import { determineSkip } from './utils.js'
+import { globalSpeedLimiterStore } from './stores'
+import { determineSkip } from './utils'
 
 const defaultSpeedLimitOptions: Partial<Options> = {
   skipSuccessfulRequests: false,

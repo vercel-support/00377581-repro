@@ -1,2 +1,2 @@
-export * from './errors.js'
-export * from './limiters/index.js'
+export * from './errors'
+export * from './limiters'
