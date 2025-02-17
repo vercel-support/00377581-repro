@@ -2,10 +2,10 @@ import express, { Express, Router, RouterOptions, RequestHandler } from 'express
 import helmet from 'helmet'
 import cors from 'cors'
 import {
-  errorHandler,
-  globalMinuteRateLimiter,
-  globalSecondRateLimiter,
-  globalSpeedLimiter
+  errorHandler
+  // globalMinuteRateLimiter,
+  // globalSecondRateLimiter,
+  // globalSpeedLimiter
 } from './middlewares'
 
 export const _app = express()
@@ -16,11 +16,11 @@ export const router = createRouter()
 _app.set('trust proxy', 1)
 
 // Global middlewares
-if (process.env.NODE_ENV === 'production') {
-  _app.use(globalMinuteRateLimiter)
-  _app.use(globalSecondRateLimiter)
-  _app.use(globalSpeedLimiter)
-}
+// if (process.env.NODE_ENV === 'production') {
+//   _app.use(globalMinuteRateLimiter)
+//   _app.use(globalSecondRateLimiter)
+//   _app.use(globalSpeedLimiter)
+// }
 
 _app.use(express.json({ limit: '5mb' }) as RequestHandler)
 _app.use(express.urlencoded({ extended: true }) as RequestHandler)
