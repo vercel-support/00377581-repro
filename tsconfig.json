@@ -2,11 +2,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2023"],
-    "module": "ES2015",
+    "module": "CommonJS",
+    "moduleResolution": "node10",
     "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
     "esModuleInterop": true,
@@ -16,7 +14,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
   },
   "exclude": ["node_modules", "dist"]
 }

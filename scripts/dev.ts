@@ -1,10 +1,10 @@
 import 'dotenv/config'
 import { readdir } from 'node:fs/promises'
 import { type Server } from 'node:http'
+import { resolve } from 'node:path'
 import { consola } from 'consola'
 import pc from 'picocolors'
-import { _app } from '../core'
-import { resolve } from 'node:path'
+import { _app, errorHandler } from '../core'
 
 const BASE_URL = 'http://localhost'
 const PORT = process.env.PORT ?? '3000'
@@ -44,9 +44,10 @@ const createExpressRoutes = async (routes: Set<string>, baseDir: string) => {
     if (route.split('/').some((path) => isIgnoredPath(path))) return
 
     try {
-      const { default: module } = await import(baseDir + route)
-      if (module?.stack) {
-        _app.use(module)
+      const { default: router } = await import(baseDir + route)
+      if (router?.stack) {
+        _app.use(router)
+        consola.success(pc.green(`${pc.bold(route)} created`))
       } else {
         consola.warn(pc.yellow(`${pc.bold(route)} has no default exported router`))
       }
@@ -76,8 +77,12 @@ const main = async (): Promise<void> => {
   await getRoutes(baseDir, routes)
   consola.info(`Found ${routes.size} routes`)
   consola.start('Creating routes...')
+  console.log('')
   await createExpressRoutes(routes, baseDir)
+  console.log('')
   consola.success('Routes created!')
+
+  _app.use(errorHandler)
 
   const server = _app.listen(PORT, () => {
     console.log(
@@ -86,7 +91,7 @@ const main = async (): Promise<void> => {
       )
     )
 
-    console.log(`\n${pc.cyan('Server running on')} ${pc.bold(`${BASE_URL}`)}`)
+    console.log(`\n${pc.cyan('Server running on')} ${pc.bold(`${BASE_URL}:${PORT}`)}\n`)
   })
 
   process.once('SIGUSR2', () => gracefulShutdown(server, 'SIGUSR2'))

@@ -1,26 +1,15 @@
-import { NextFunction, Request, Response } from 'express'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import { type NextFunction, type Request, type Response } from 'express'
+import { InternalServerError, NotFoundError, OktusError } from '../errors'
+import { ActivityController } from '../services'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const errorHandler = (err: unknown, req: Request, res: Response, _: NextFunction) => {
-  const statusCode =
-    res.statusCode === StatusCodes.NOT_FOUND ? res.statusCode : StatusCodes.INTERNAL_SERVER_ERROR
-
-  res.status(statusCode).json({
-    message: err instanceof Error ? err.message : ReasonPhrases.INTERNAL_SERVER_ERROR,
-    debugLevel: 'error',
-    help: 'Unexpected error',
-    stack:
-      process.env.NODE_ENV === 'production'
-        ? err instanceof Error
-          ? err.stack
-          : 'unknown'
-        : undefined
-  })
+export const errorHandler = (err: unknown, req: Request, res: Response, _: NextFunction): void => {
+  if (err instanceof OktusError) {
+    ActivityController.sendError(req, res, err)
+  } else {
+    ActivityController.sendError(req, res, new InternalServerError())
+  }
 }
 
-export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  res.status(StatusCodes.NOT_FOUND)
-  const error = new Error(`${ReasonPhrases.NOT_FOUND} - ${req.originalUrl}`)
-  next(error)
+export const notFound = (req: Request, _: Response, next: NextFunction) => {
+  next(new NotFoundError(`Route ${req.originalUrl} not found`))
 }

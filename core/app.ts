@@ -1,11 +1,18 @@
-import express, { Express, Router, RouterOptions, RequestHandler } from 'express'
-import helmet from 'helmet'
 import cors from 'cors'
+import express, {
+  type Express,
+  type RequestHandler,
+  type Router,
+  type RouterOptions
+} from 'express'
+import helmet from 'helmet'
+import { __IS_PROD__ } from './config'
 import {
-  errorHandler
+  errorHandler,
   // globalMinuteRateLimiter,
   // globalSecondRateLimiter,
-  // globalSpeedLimiter
+  // globalSpeedLimiter,
+  parseQueryParams
 } from './middlewares'
 
 export const _app = express()
@@ -13,10 +20,10 @@ const createRouter: (options?: RouterOptions) => Router = express.Router
 export const router = createRouter()
 
 // Express definitions
-_app.set('trust proxy', 1)
+_app.set('trust proxy', 1) // Trust Vercel
 
 // Global middlewares
-// if (process.env.NODE_ENV === 'production') {
+// if (__IS_PROD__) {
 //   _app.use(globalMinuteRateLimiter)
 //   _app.use(globalSecondRateLimiter)
 //   _app.use(globalSpeedLimiter)
@@ -41,6 +48,10 @@ _app.use(
 )
 
 // Custom middlewares
-_app.use(errorHandler)
+_app.use(parseQueryParams)
 
-export default process.env.NODE_ENV === 'production' ? _app : (router as Express)
+if (__IS_PROD__) {
+  _app.use(errorHandler)
+}
+
+export default __IS_PROD__ ? _app : (router as Express)
