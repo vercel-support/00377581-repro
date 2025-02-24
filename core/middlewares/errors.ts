@@ -3,6 +3,7 @@ import { InternalServerError, NotFoundError, OktusError } from '../errors'
 import { ActivityController } from '../services'
 
 export const errorHandler = (err: unknown, req: Request, res: Response, _: NextFunction): void => {
+  ActivityController.log({ message: 'HIT', type: 'box' })
   if (err instanceof OktusError) {
     ActivityController.sendError(req, res, err)
   } else {

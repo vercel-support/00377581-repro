@@ -37,7 +37,6 @@ export class ActivityController {
       DebugLevel.ERROR
     )
 
-    res.setHeader('Content-Type', 'application/json')
     return res.status(err.status).json(errorResponse)
   }
 

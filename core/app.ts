@@ -24,12 +24,6 @@ _app.set('trust proxy', 1) // Trust Vercel
 //   _app.use(globalSpeedLimiter)
 // }
 
-_app.use((req, res, next) => {
-  res.setHeader('X-Powered-By', 'Oktus')
-  res.setHeader('Content-Type', 'application/json')
-  res.header('X-Powered-By', 'Oktus')
-  next()
-})
 _app.use(express.json({ limit: '5mb' }))
 _app.use(express.urlencoded({ extended: true }))
 _app.use(express.static('public'))
