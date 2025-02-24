@@ -43,7 +43,7 @@ _app.use(
 )
 
 // Custom middlewares
-_app.use(errorHandler)
 _app.use(parseQueryParams)
+_app.use(errorHandler)
 
 export default __IS_PROD__ ? _app : (router as Express)
