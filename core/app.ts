@@ -1,10 +1,5 @@
 import cors from 'cors'
-import express, {
-  type Express,
-  type RequestHandler,
-  type Router,
-  type RouterOptions
-} from 'express'
+import express, { type Express, type Router, type RouterOptions } from 'express'
 import helmet from 'helmet'
 import { __IS_PROD__ } from './config'
 import {
@@ -29,9 +24,14 @@ _app.set('trust proxy', 1) // Trust Vercel
 //   _app.use(globalSpeedLimiter)
 // }
 
-_app.use(express.json({ limit: '5mb' }) as RequestHandler)
-_app.use(express.urlencoded({ extended: true }) as RequestHandler)
-_app.use(express.static('public') as RequestHandler)
+_app.use((req, res, next) => {
+  res.setHeader('X-Powered-By', 'Oktus')
+  res.setHeader('Content-Type', 'application/json')
+  next()
+})
+_app.use(express.json({ limit: '5mb' }))
+_app.use(express.urlencoded({ extended: true }))
+_app.use(express.static('public'))
 
 // Security middlewares
 _app.use(cors())
@@ -44,7 +44,7 @@ _app.use(
     permittedCrossDomainPolicies: true,
     referrerPolicy: true,
     xssFilter: true
-  }) as RequestHandler
+  })
 )
 
 // Custom middlewares
