@@ -18,6 +18,10 @@
         {
           "key": "Access-Control-Max-Age",
           "value": "86400"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
         }
       ]
     }
