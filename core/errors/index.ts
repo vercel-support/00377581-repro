@@ -1,7 +1,7 @@
 import { StatusCodes, getReasonPhrase } from 'http-status-codes'
-import { type ZodError } from 'zod'
+import type { ZodError } from 'zod'
 import { __IS_PROD__ } from '../config'
-import { ActivityControllerMessageDetails } from '../services'
+import type { ActivityControllerMessageDetails } from '../services'
 
 export * from './debug'
 

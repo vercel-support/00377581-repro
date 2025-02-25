@@ -1,4 +1,4 @@
-import { type NextFunction, type Request, type Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import { InternalServerError, NotFoundError, OktusError } from '../errors'
 import { ActivityController } from '../services'
 

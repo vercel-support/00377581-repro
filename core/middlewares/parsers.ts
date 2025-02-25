@@ -1,4 +1,4 @@
-import { type NextFunction, type Request, type Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 
 export const ReservedQueryFields = {
   ID: 'id',
@@ -24,12 +24,12 @@ export const parseQueryParams = (req: Request, res: Response, next: NextFunction
 export const parseQueryParamsIntoType = (req: Request, res: Response, key: string): void => {
   // Reserved fields
   if (key === ReservedQueryFields.PAGE) {
-    res.locals.query.page = parseInt(String(req.query.page))
+    res.locals.query.page = Number.parseInt(String(req.query.page))
     return
   }
 
   if (key === ReservedQueryFields.PAGELIMIT) {
-    res.locals.query.pageLimit = parseInt(String(req.query.pageLimit))
+    res.locals.query.pageLimit = Number.parseInt(String(req.query.pageLimit))
     return
   }
 
@@ -44,7 +44,7 @@ export const parseQueryParamsIntoType = (req: Request, res: Response, key: strin
       } else if (target === 'undefined') {
         res.locals.query[key] = undefined
       } else if (target === 'true' || target === 'false') {
-        res.locals.query[key] = target === 'true' ? true : false
+        res.locals.query[key] = target === 'true'
       }
       // else if (options.parseNumber && !isNaN(Number(target))) {
       //   return Number(target)

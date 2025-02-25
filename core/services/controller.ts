@@ -1,8 +1,8 @@
-import { createConsola, InputLogObject } from 'consola'
-import { type Request, type Response } from 'express'
-import { DebugLevel, InnerValidationError, OktusError, OktusErrorResponse } from '../errors'
+import { createConsola, type InputLogObject } from 'consola'
+import type { Request, Response } from 'express'
+import { DebugLevel, type InnerValidationError, type OktusError, type OktusErrorResponse } from '../errors'
 import { generateId } from '../utils'
-import { ZodError } from 'zod'
+import type { ZodError } from 'zod'
 
 export interface ActivityControllerMessageDetails {
   id?: string
