@@ -1,5 +1,3 @@
-import { app } from '../core'
-
 app.get('/', () => {
   // Access the environment variable
   const envTest = process.env.ENV_TEST
