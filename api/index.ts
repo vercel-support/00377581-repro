@@ -1,8 +1,13 @@
 import { app } from '../core'
-import { ForbiddenError } from '../core/errors'
 
 app.get('/', () => {
-  throw new ForbiddenError('You are not allowed to access this resource')
+  // Access the environment variable
+  const envTest = process.env.ENV_TEST
+  
+  // Return the environment variable value
+  return {
+    envValue: envTest
+  }
 })
 
 export default app
