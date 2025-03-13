@@ -27,5 +27,8 @@
     }
   ],
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
-  "trailingSlash": false
+  "trailingSlash": false,
+  "env": {
+    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+  }
 }
